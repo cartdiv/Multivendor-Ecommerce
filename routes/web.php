@@ -178,7 +178,23 @@ Route::get('/become/vendor', [vendorController::class, 'BecomeVendor'])->name('b
 Route::post('/vendor/register', [vendorController::class, 'VendorRegister'])->name('vendor.register');
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->middleware(RedirectIfAuthenticated::class);
 Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
-Route::get('/', [frontendController::class, 'Frontend'])->name('frontend');
+
+
+//Fontend routes
+Route::controller(frontendController::class)->group(function(){
+    Route::get('/', 'Frontend')->name('frontend');
+    Route::get('/product/details/{id}/{slug}','ProductDetails');
+    Route::get('/vendor/details/{id}/{name}','VendorDetails')->name('vendor.details');
+    Route::get('/vendor/all', 'VendorAll')->name('vendor.all');
+    Route::get('/product/category/{id}/{slug}','CategoryDetails')->name('category.details');
+    Route::get('/product/subcategory/{id}/{slug}','SubcategoryDetails')->name('subcategory.details');
+
+
+});
+
+
+
+
 
 
 

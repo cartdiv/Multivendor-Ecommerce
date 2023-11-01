@@ -102,7 +102,7 @@
 												<h6 class="mb-0">Vendor Info</h6>
 											</div>
 											<div class="col-sm-9 text-secondary">
-												<textarea class="form-control" id="inputAddress" placeholder="Address..." rows="3"></textarea>
+												<textarea class="form-control" id="inputAddress"  rows="3">{{$activeVendorDetails->vendor_short_info}} </textarea>
 											</div>
 										</div>
                                         <div class="row mb-3">

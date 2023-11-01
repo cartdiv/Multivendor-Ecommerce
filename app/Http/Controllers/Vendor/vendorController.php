@@ -54,6 +54,7 @@ class vendorController extends Controller
         $data->email = $request->email;
         $data->phone = $request->phone;
         $data->address = $request->address;
+        $data->vendor_short_info = $request->vendor_short_info;
         if($request->file('photo')){
             $file = $request->file('photo');
             
@@ -135,6 +136,7 @@ class vendorController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'vendor_short_info' => $request->vendor_short_info,
             'password' => Hash::make($request->password),
             'role' => 'vendor',
             'status' => 'inactive',

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('discount_price')->nullable();
             $table->text('short_descp');
             $table->text('long_descp');
+            $table->text('vendor_short_info')->nullable();
             $table->string('product_thumbnail');
             $table->string('vendor_id')->nullable();
             $table->integer('hot_deals')->nullable();

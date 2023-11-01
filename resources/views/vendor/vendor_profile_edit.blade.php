@@ -94,6 +94,14 @@
 												<input type="text" class="form-control" name="address" value={{$vendor_user->address}} >
 											</div>
 										</div>
+										<div class="row mb-3">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Vendor Info</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<textarea class="form-control" id="inputAddress" name="vendor_short_info"  rows="3">{{$vendor_user->vendor_short_info}}</textarea>
+											</div>
+										</div>
                                         <div class="row mb-3">
 											<div class="col-sm-3">
 												<h6 class="mb-0">Profile Photo</h6>
