@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\productController;
 use App\Http\Controllers\Admin\sliderController;
 use App\Http\Controllers\Admin\subcategoryController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\frontendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
@@ -188,8 +189,18 @@ Route::controller(frontendController::class)->group(function(){
     Route::get('/vendor/all', 'VendorAll')->name('vendor.all');
     Route::get('/product/category/{id}/{slug}','CategoryDetails')->name('category.details');
     Route::get('/product/subcategory/{id}/{slug}','SubcategoryDetails')->name('subcategory.details');
+    // Product View Modal With Ajax
+    Route::get('/product/view/modal/{id}', 'ProductViewAjax');
+    
+});
 
+Route::controller(CartController::class)->group(function(){
+    /// Add to cart store data
+    Route::post('/cart/data/store/{id}', 'AddToCart');
 
+    // Get Data from mini Cart
+    Route::get('/product/mini/cart', 'AddMiniCart');
+    Route::get('/minicart/product/remove/{rowId}', 'RemoveMiniCart');
 });
 
 

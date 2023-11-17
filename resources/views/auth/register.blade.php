@@ -23,10 +23,10 @@
 									</div>
 									<form method="POST" action="{{ route('register') }}">
 										@csrf
-										<x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+										<x-input-error :messages="$errors->get('name')" class="mt-2" style="color: red;" />
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" style="color: red;" />
+                                            <x-input-error :messages="$errors->get('password')" class="mt-2" style="color: red;" />
+                                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" style="color: red;" />
 										
 										<div class="form-group">
 											<input type="text" required="" name="name" placeholder="Full Name" />

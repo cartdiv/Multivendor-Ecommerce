@@ -29,8 +29,8 @@
 									
 									<form method="POST" action="{{ route('login') }}">
 										@csrf
-										<x-input-error :messages="$errors->get('login')" class="mt-2" />
-										<x-input-error :messages="$errors->get('password')" class="mt-2" />
+										<x-input-error :messages="$errors->get('login')" class="mt-2" style="color: red;" />
+										<x-input-error :messages="$errors->get('password')" class="mt-2" style="color: red;" />
 										<div class="col-12 form-group">
 											<input type="text"  name="login" id="inputEmailAddress" placeholder="Username">
 										</div><br>

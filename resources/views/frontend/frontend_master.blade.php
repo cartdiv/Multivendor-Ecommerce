@@ -6,6 +6,7 @@
     <title>Nest - Multipurpose eCommerce HTML Template</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:title" content="" />
     <meta property="og:type" content="" />
@@ -25,98 +26,7 @@
 <body>
       <!-- Modal -->
  
-    <!-- Quick view -->
-    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
-                            <div class="detail-gallery">
-                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>
-                                <!-- MAIN SLIDES -->
-                                <div class="product-image-slider">
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-2.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-1.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-3.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-4.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-5.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-6.jpg" alt="product image" />
-                                    </figure>
-                                    <figure class="border-radius-10">
-                                        <img src="assets/imgs/shop/product-16-7.jpg" alt="product image" />
-                                    </figure>
-                                </div>
-                                <!-- THUMBNAILS -->
-                                <div class="slider-nav-thumbnails">
-                                    <div><img src="assets/imgs/shop/thumbnail-3.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-4.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-5.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-6.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-7.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-8.jpg" alt="product image" /></div>
-                                    <div><img src="assets/imgs/shop/thumbnail-9.jpg" alt="product image" /></div>
-                                </div>
-                            </div>
-                            <!-- End Gallery -->
-                        </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <div class="detail-info pr-30 pl-30">
-                                <span class="stock-status out-stock"> Sale Off </span>
-                                <h3 class="title-detail"><a href="shop-product-right.html" class="text-heading">Seeds of Change Organic Quinoa, Brown</a></h3>
-                                <div class="product-detail-rating">
-                                    <div class="product-rate-cover text-end">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (32 reviews)</span>
-                                    </div>
-                                </div>
-                                <div class="clearfix product-price-cover">
-                                    <div class="product-price primary-color float-left">
-                                        <span class="current-price text-brand">$38</span>
-                                        <span>
-                                            <span class="save-price font-md color3 ml-15">26% Off</span>
-                                            <span class="old-price font-md ml-15">$52</span>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="detail-extralink mb-30">
-                                    <div class="detail-qty border radius">
-                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                        <input type="text" name="quantity" class="qty-val" value="1" min="1">
-                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                    </div>
-                                    <div class="product-extra-link2">
-                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
-                                    </div>
-                                </div>
-                                <div class="font-xs">
-                                    <ul>
-                                        <li class="mb-5">Vendor: <span class="text-brand">Nest</span></li>
-                                        <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2022</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Detail Info -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  @include('frontend.body.quickview')
 
     @include('frontend.body.header')
 
@@ -163,7 +73,202 @@
     <!-- Template  JS -->
     <script src="{{asset('frontend/assets/js/main.js?v=5.3')}}"></script>
     <script src="{{asset('frontend/assets/js/shop.js?v=5.3')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+    
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            }
+        })
+        /// Start product view with Modal 
 
+        function productView(id){
+        // alert(id)
+        $.ajax({
+            type: 'GET',
+            url: '/product/view/modal/'+id,
+            dataType: 'json',
+            success:function(data){
+                //console.log(data)
+                $('#pname').text(data.product.product_name);
+                $('#pprice').text(data.product.selling_price);
+                $('#pcode').text(data.product.product_code);
+                $('#pcategory').text(data.product.category.category_name);
+                $('#pbrand').text(data.product.brand.brand_name);
+                $('#pimage').attr('src','/'+data.product.product_thumbnail );
+                
+                $('#product_id').val(id);
+            $('#qty').val(1);
+
+                // Product Price 
+                if (data.product.discount_price == null) {
+                    $('#pprice').text('');
+                    $('#oldprice').text('');
+                    $('#pprice').text(data.product.selling_price);
+                }else{
+                    $('#pprice').text(data.product.selling_price);
+                    $('#oldprice').text(data.product.discount_price); 
+                } // end else
+
+
+                /// Start Stock Option
+            if (data.product.product_qty > 0) {
+                $('#aviable').text('');
+                $('#stockout').text('');
+                $('#aviable').text('aviable');
+            }else{
+                $('#aviable').text('');
+                $('#stockout').text('');
+                $('#stockout').text('stockout');
+            } 
+            ///End Start Stock Option
+
+             ///Size 
+             $('select[name="size"]').empty();
+             $.each(data.size,function(key,value){
+                $('select[name="size"]').append('<option value="'+value+' ">'+value+'  </option')
+                if (data.size == "") {
+                    $('#sizeArea').hide();
+                }else{
+                     $('#sizeArea').show();
+                }
+             }) // end size
+
+                     ///Color 
+               $('select[name="color"]').empty();
+             $.each(data.color,function(key,value){
+                $('select[name="color"]').append('<option value="'+value+' ">'+value+'  </option')
+                if (data.color == "") {
+                    $('#colorArea').hide();
+                }else{
+                     $('#colorArea').show();
+                }
+             }) // end size
+               
+
+            }
+        })
+
+    }
+    // End Product View With Modal 
+    /// Start Add To Cart Prodcut 
+    function addToCart(){
+     var product_name = $('#pname').text();  
+     var id = $('#product_id').val();
+     var color = $('#color option:selected').text();
+     var size = $('#size option:selected').text();
+     var quantity = $('#qty').val(); 
+     $.ajax({
+        type: "POST",
+        dataType : 'json',
+        data:{
+            color:color, size:size, quantity:quantity,product_name:product_name
+        },
+        url: "/cart/data/store/"+id,
+        success:function(data){
+            miniCart();
+            $('#closeModal').click();
+            // console.log(data)
+
+            // Start Message 
+            const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  icon: 'success', 
+                  showConfirmButton: false,
+                  timer: 3000 
+            })
+            if ($.isEmptyObject(data.error)) {
+                    
+                    Toast.fire({
+                    type: 'success',
+                    title: data.success, 
+                    })
+            }else{
+               
+           Toast.fire({
+                    type: 'error',
+                    title: data.error, 
+                    })
+                }
+        }
+     })
+    }
+    /// End Add To Cart Prodcut 
+
+    function miniCart(){
+    $.ajax({
+        type: 'GET',
+        url: '/product/mini/cart',
+        dataType: 'json',
+        success:function(response){
+
+            $('span[id="cartSubTotal"]').text(response.cartTotal);
+            $('#cartQty').text(response.cartQty);
+
+            var miniCart = ""
+
+        $.each(response.carts, function(key,value){
+           miniCart += ` <ul>
+            <li>
+                <div class="shopping-cart-img">
+                    <a href="shop-product-right.html"><img alt="Nest" src="/${value.options.image} " style="width:50px;height:50px;" /></a>
+                </div>
+                <div class="shopping-cart-title" style="margin: -73px 74px 14px; width" 146px;>
+                    <h4><a href="shop-product-right.html"> ${value.name} </a></h4>
+                    <h4><span>${value.qty} × </span>${value.price}</h4>
+                </div>
+                <div class="shopping-cart-delete" style="margin: -85px 1px 0px;">
+                    <a type="submit" id="${value.rowId}" onclick="miniCartRemove(this.id)"  ><i class="fi-rs-cross-small"></i></a>
+                </div>
+            </li> 
+        </ul>
+        <hr><br>
+               `  
+          });
+            $('#miniCart').html(miniCart);
+        }
+    })
+ }
+ miniCart();
+
+
+ /// Mini Cart Remove Start 
+ function miniCartRemove(rowId){
+     $.ajax({
+        type: 'GET',
+        url: '/minicart/product/remove/'+rowId,
+        dataType:'json',
+        success:function(data){
+        miniCart();
+             // Start Message 
+            const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  icon: 'success', 
+                  showConfirmButton: false,
+                  timer: 3000 
+            })
+            if ($.isEmptyObject(data.error)) {
+                    
+                    Toast.fire({
+                    type: 'success',
+                    title: data.success, 
+                    })
+            }else{
+               
+           Toast.fire({
+                    type: 'error',
+                    title: data.error, 
+                    })
+                }
+              // End Message  
+        }
+     })
+   }
+    /// Mini Cart Remove End 
+     </script>
     {{-- Toaster notification --}}
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
