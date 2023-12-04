@@ -98,9 +98,9 @@
                             </div>
                             <div class="product-content-wrap">
                                 <div class="product-category">
-                                    <a href="shop-grid-right.html">{{$product['category']['category_name']}}</a>
+                                    <a href="{{ url('product/category/'.$product->category->id.'/'.$product->category->category_slug) }}">{{$product['category']['category_name']}}</a>
                                 </div>
-                                <h2><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}"> {{ Str::limit($product->product_name, 40, '...') }} </a></h2>
+                                <h2><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}"> {{ Str::limit($product->product_name, 15, '...') }} </a></h2>
                                 <div class="product-rate-cover">
                                     <div class="product-rate d-inline-block">
                                         <div class="product-rating" style="width: 90%"></div>
@@ -108,7 +108,7 @@
                                     <span class="font-small ml-5 text-muted"> (4.0)</span>
                                 </div>
                                 <div>
-                                    <span class="font-small text-muted">By <a href="vendor-details-1.html">{{$product['vendor']['name']}}</a></span>
+                                    <span class="font-small text-muted">By <a href="{{url('/vendor/details/'.$product->vendor->id.'/'.$product->vendor->name)}}">{{$product['vendor']['name']}}</a></span>
                                 </div>
                                 <div class="product-card-bottom">
                                   @if ($product->discount_price == Null)

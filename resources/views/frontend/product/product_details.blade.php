@@ -48,7 +48,7 @@
 
                                 @endif
                                
-                                <h2 class="title-detail">{{$product->product_name}}</h2>
+                                <h2 class="title-detail"  id="dpname">{{$product->product_name}}</h2>
                                 <div class="product-detail-rating">
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
@@ -65,15 +65,15 @@
                                 <div class="clearfix product-price-cover">
                                     @if($product->discount_price == Null)
                                     <div class="product-price primary-color float-left">
-                                        <span class="current-price text-brand">{{$product->selling_price}}</span>
+                                        <span class="current-price text-brand">${{$product->selling_price}}</span>
                                        
                                     </div>
                                     @else
                                     <div class="product-price primary-color float-left">
-                                        <span class="current-price text-brand">{{$product->selling_price}}</span>
+                                        <span class="current-price text-brand">${{$product->discount_price}}</span>
                                         <span>
                                             <span class="save-price font-md color3 ml-15">{{ round($discount) }}%</span>
-                                            <span class="old-price font-md ml-15">{{$product->discount_price}}</span>
+                                            <span class="old-price font-md ml-15">${{$product->selling_price}}</span>
                                         </span>
                                     </div>
                                     @endif
@@ -87,7 +87,7 @@
 
 <div class="attr-detail attr-size mb-30">
         <strong class="mr-10" style="width:50px;">Size : </strong>
-         <select class="form-control unicase-form-control" id="size">
+         <select class="form-control unicase-form-control" id="dsize">
          	<option selected="" disabled="">--Choose Size--</option>
          	@foreach($product_size as $size)
          	<option value="{{ $size }}">{{ ucwords($size)  }}</option>
@@ -105,7 +105,7 @@
 
 <div class="attr-detail attr-size mb-30">
         <strong class="mr-10" style="width:50px;">Color : </strong>
-         <select class="form-control unicase-form-control" id="size">
+         <select class="form-control unicase-form-control" id="dcolor">
          	<option selected="" disabled="">--Choose Color--</option>
          	@foreach($product_color as $color)
          	<option value="{{ $color }}">{{ ucwords($color)  }}</option>
@@ -118,11 +118,21 @@
                                 <div class="detail-extralink mb-50">
                                     <div class="detail-qty border radius">
                                         <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                        <input type="text" name="quantity" class="qty-val" value="1" min="1">
+                                        <input type="text" name="quantity" id="dqty" class="qty-val" value="1" min="1">
                                         <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                     </div>
                                     <div class="product-extra-link2">
-                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                        <input type="hidden" id="dproduct_id" value="{{ $product->id }}">
+                                        
+                                        @if ($product->product_qty == 0)
+                                    
+
+                                @else
+
+                                <button type="submit" class="button button-add-to-cart" onclick="addToCartDetails()"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+
+                                @endif
+                                        
                                         <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                     </div>
@@ -468,15 +478,17 @@
                 <div class="product-cart-wrap hover-up">
                     <div class="product-img-action-wrap">
                         <div class="product-img product-img-zoom">
-                            <a href="shop-product-right.html" tabindex="0">
+                            <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}" tabindex="0">
                                 <img class="default-img" src="{{ asset( $product->product_thumbnail ) }}" alt="" />
                                 <img class="hover-img" src="assets/imgs/shop/product-2-2.jpg" alt="" />
                             </a>
                         </div>
                          <div class="product-action-1">
-                                    <a aria-label="Add To Wishlist" class="action-btn" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                    <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                    <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                            <a aria-label="Add To Wishlist" class="action-btn" id="{{ $product->id }}" onclick="addToWishList(this.id)"  ><i class="fi-rs-heart"></i></a>
+
+                            <a aria-label="Compare" class="action-btn"  id="{{ $product->id }}" onclick="addToCompare(this.id)"><i class="fi-rs-shuffle"></i></a>
+                         
+                            <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal" id="{{ $product->id }}" onclick="productView(this.id)" ><i class="fi-rs-eye"></i></a>
                                 </div>
                     @php
                     $amount = $product->selling_price - $product->discount_price;
@@ -494,7 +506,7 @@
                                 </div>
                     </div>
                     <div class="product-content-wrap">
-                        <h2><a href="shop-product-right.html" tabindex="0">{{ Str::limit($product->product_name, 20, '...') }}</a></h2>
+                        <h2><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}" tabindex="0">{{ Str::limit($product->product_name, 20, '...') }}</a></h2>
                         <div class="rating-result" title="90%">
                             <span> </span>
                         </div>
@@ -506,8 +518,8 @@
 
                         @else
                             <div class="product-price">
-                            <span>${{ $product->selling_price }}</span>
-                            <span class="old-price">${{ $product->discount_price }}</span>
+                            <span>${{ $product->discount_price }}</span>
+                            <span class="old-price">${{ $product->selling_price }}</span>
                         </div>
                         
                         @endif

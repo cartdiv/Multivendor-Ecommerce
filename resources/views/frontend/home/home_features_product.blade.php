@@ -35,9 +35,9 @@ $featured_products = App\Models\Product::where('featured', 1)->where('status', 1
                                             </a>
                                         </div>
                                         <div class="product-action-1">
-                                            <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal" id="{{ $product->id }}" onclick="productView(this.id)" > <i class="fi-rs-eye"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            <a aria-label="Add To Wishlist" class="action-btn" id="{{ $product->id }}" onclick="addToWishList(this.id)"  ><i class="fi-rs-heart"></i></a>
+                                            <a aria-label="Compare" class="action-btn"  id="{{ $product->id }}" onclick="addToCompare(this.id)"><i class="fi-rs-shuffle"></i></a>
+                                            <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal" id="{{ $product->id }}" onclick="productView(this.id)" ><i class="fi-rs-eye"></i></a>
                                         </div>
                                         @php
                                         $amount = $product->selling_price - $product->discount_price;
@@ -71,8 +71,8 @@ $featured_products = App\Models\Product::where('featured', 1)->where('status', 1
                                         @else
 
                                         <div class="product-price mt-10">
-                                            <span>${{ $product->selling_price }}</span>
-                                            <span class="old-price">${{ $product->discount_price }}</span>
+                                            <span>${{ $product->discount_price }}</span>
+                                            <span class="old-price">${{ $product->selling_price }}</span>
                                         </div>
                                         @endif
                                         <div class="sold mt-15 mb-15">
