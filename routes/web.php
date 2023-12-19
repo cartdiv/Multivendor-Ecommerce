@@ -210,7 +210,7 @@ Route::middleware(['auth','roles:vendor'])->group(function(){
 });
 
 
-Route::middleware(['auth', 'roles:user'])->group(function(){
+Route::middleware(['auth','roles:user'])->group(function(){
 
     Route::controller(UserController::class)->group(function(){
         Route::get('/dashboard', 'Dashboard')->name('user.dashboard');
